@@ -1,0 +1,72 @@
+@import 'params.styl'
+@import 'reset.styl'
+@import 'columns.styl'
+@import 'orders.styl'
+@import 'properties.styl'
+@import "offsets.styl"
+
+container_gutter_xs = container_gutters['']
+row_gutter_xs = row_gutters['']
+
+.container
+  width 100%
+  padding-right container_gutter_xs
+  padding-left container_gutter_xs
+  margin-right auto
+  margin-left auto
+
+.row
+  display flex
+  flex-wrap wrap
+  margin-left row_gutter_xs * -1
+  margin-right row_gutter_xs * -1
+
+.no-gutters
+  margin-left 0 !important
+  margin-right 0 !important
+
+  & > .col, & > [class*="col-"]
+    padding-left 0
+    padding-right 0
+
+columns()
+offsets()
+orders()
+make_classes()
+make_classes_adaptive()
+make_margins_adaptive()
+make_paddings_adaptive()
+make_text_sizes()
+
+for bp, min_width in breakpoints
+  +media_down(min_width)
+    local_container_size = container_sizes[bp]
+    local_container_gutter = container_gutters[bp]
+    local_row_gutter = row_gutters[bp]
+
+    .container
+      max-width local_container_size
+      padding-right local_container_gutter
+      padding-left local_container_gutter
+
+    .row
+      margin-left local_row_gutter * -1
+      margin-right local_row_gutter * -1
+
+    columns(bp)
+    offsets(bp)
+    orders(bp)
+    make_classes_adaptive(bp)
+    make_margins_adaptive(bp)
+    make_paddings_adaptive(bp)
+    make_text_sizes(bp)
+
+.hidden
+  position absolute
+  max-height 0
+  max-width 0
+  opacity 0
+  pointer-events none
+  z-index -1
+  width 0
+  height 0

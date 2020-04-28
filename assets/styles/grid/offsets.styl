@@ -1,0 +1,6 @@
+@import 'params.styl';
+
+offsets(bp = '')
+  for span in (1 .. columns_count)
+    .offset{bp}-{span - 1}
+      margin-left ((span - 1) / columns_count) * 100%

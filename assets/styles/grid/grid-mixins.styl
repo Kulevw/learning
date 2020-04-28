@@ -1,0 +1,17 @@
+@import "params.styl"
+
+media_down(min_width)
+  @media screen and (min-width: min_width)
+    {block}
+
+class_bp_value(class, class_value, bp, props)
+  .{class}{bp}-{class_value}
+    {props}
+
+get-up-bp($bp)
+  $local_bp = '-' + $bp
+  (breakpoints[$local_bp] - 1px)
+
+get-down-bp($bp)
+  $local_bp = '-' + $bp
+  breakpoints[$local_bp]

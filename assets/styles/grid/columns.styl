@@ -1,0 +1,33 @@
+@import 'params.styl'
+
+columns(bp = '')
+  local_gutter = row_gutters[bp]
+
+  $col-std{bp}
+    padding-left local_gutter
+    padding-right local_gutter
+
+  $col-std-width{bp}
+    padding-left local_gutter
+    padding-right local_gutter
+    width 100%
+
+  .col{bp}
+    @extend $col-std{bp}
+    flex-basis 0%
+    flex-grow 1
+    max-width 100%
+    min-width 0.01px
+
+  .col{bp}-auto
+    @extends $col-std{bp}
+    flex 0 0 auto
+    width auto
+    max-width 100%
+
+  for span in (1 .. columns_count)
+    .col{bp}-{span}
+      @extends $col-std-width{bp}
+      percent = (span / columns_count) * 100%
+      flex 0 0 percent
+      max-width percent

@@ -16,5 +16,27 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    "vue/attributes-order": ["error", {
+      "order": [
+        "DEFINITION",
+        "LIST_RENDERING",
+        "CONDITIONALS",
+        "RENDER_MODIFIERS",
+        "GLOBAL",
+        "UNIQUE",
+        "TWO_WAY_BINDING",
+        "OTHER_DIRECTIVES",
+        "OTHER_ATTR",
+        "EVENTS",
+        "CONTENT"
+      ]
+    }],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "never",
+      "exports": "never",
+      "functions": "never"
+    }]
   }
 }

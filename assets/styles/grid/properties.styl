@@ -1,0 +1,12 @@
+@import 'params.styl'
+@import 'grid-mixins.styl'
+
+make_classes()
+  for class, class_values in classes
+    for class_value, props in class_values
+      class_bp_value(class, class_value, '', props)
+
+make_classes_adaptive(bp = '')
+  for class, class_values in classes_adaptive
+    for class_value, props in class_values
+      class_bp_value(class, class_value, bp, props)

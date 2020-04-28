@@ -1,0 +1,12 @@
+@import 'params.styl'
+
+orders(bp = '')
+  .order{bp}-first
+    order -1
+
+  .order{bp}-last
+    order columns_count + 1
+
+  for span in (0 .. columns_count)
+    .order{bp}-{span}
+      order span
