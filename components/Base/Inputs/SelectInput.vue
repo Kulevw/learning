@@ -1,6 +1,5 @@
 <template>
-  <ValidationProvider :disabled="disabled" rules="required">
-    <input type="hidden" :value="value" :name="name" />
+  <div>
     <div class="select" :class="selectClass">
       <div class="select__inner" @click="clickSelectHandler" @mousedown.prevent>
         <slot name="before">
@@ -11,6 +10,7 @@
             :id="id"
             ref="input"
             class="select__input"
+            :name="name"
             :type="type"
             :disabled="disabled"
             :placeholder="placeholder"
@@ -43,7 +43,7 @@
         </ul>
       </div>
     </div>
-  </ValidationProvider>
+  </div>
 </template>
 
 <script lang="ts">

@@ -15,3 +15,9 @@ get-up-bp($bp)
 get-down-bp($bp)
   $local_bp = '-' + $bp
   breakpoints[$local_bp]
+
+index_of(arr, thing)
+  for item, i in arr
+    if thing == item
+      return i
+  return -1

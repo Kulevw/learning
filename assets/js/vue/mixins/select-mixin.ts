@@ -1,4 +1,4 @@
-import { Component, Prop } from 'vue-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import { InputMixin } from '~/assets/js/vue/mixins/input-mixin'
 
 export type SelectPrimitive = string | number | boolean

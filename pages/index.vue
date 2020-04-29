@@ -2,7 +2,14 @@
   <div class="home-page">
     <div class="container">
       <div class="row">
-        <div class="col-6">
+        <div class="col-12">
+          <h1 class="fs-1">Очень большой текст</h1>
+          <h2 class="fs-2">Большой текст</h2>
+          <p class="fs-3">Текст</p>
+          <p class="fs-4">Маленький текст</p>
+          <p class="fs-5">Очень маленький текст</p>
+        </div>
+        <div class="col-xl-6">
           <div class="home-page__select">
             <SelectInput
               v-model="selectSingleOptions.value"
@@ -10,7 +17,7 @@
             />
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-xl-6">
           <div class="home-page__select">
             <SelectInput
               v-model="selectSingleIds.value"
@@ -18,7 +25,7 @@
             />
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-xl-6">
           <div class="home-page__select">
             <SelectInput
               v-model="selectMultipleOptions.value"
@@ -26,7 +33,7 @@
             />
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-xl-6">
           <div class="home-page__select">
             <SelectInput
               v-model="selectMultipleIds.value"
@@ -42,7 +49,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
+import { required } from 'vuelidate/lib/validators'
 import SelectInput from '~/components/Base/Inputs/SelectInput.vue'
+import { ValidateValue } from '~/assets/js/vue/decorators/vue-validate-decorators'
 
 const makeOptions = (optionName: string) => {
   const result = []
@@ -59,8 +68,16 @@ const makeOptions = (optionName: string) => {
   components: {
     SelectInput,
   },
+  validations: {
+    selectSingleOptions: {
+      value: {
+        required,
+      },
+    },
+  },
 })
 export default class IndexPage extends Vue {
+  @ValidateValue()
   selectSingleOptions = {
     props: {
       options: makeOptions('SingleOptions'),

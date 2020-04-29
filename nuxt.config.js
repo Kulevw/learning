@@ -15,11 +15,9 @@ export default {
   },
   loading: { color: '#fff' },
   css: ['~/assets/styles/index.styl'],
-  plugins: ['~/plugins/vee-validate.ts'],
+  plugins: ['~/plugins/vuelidate.ts'],
   buildModules: ['@nuxt/typescript-build'],
   modules: ['@nuxtjs/axios', '@nuxtjs/dotenv', 'nuxt-svg-loader'],
   axios: {},
-  build: {
-    transpile: ['vee-validate/dist/rules'],
-  },
+  build: {},
 }

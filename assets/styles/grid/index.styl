@@ -4,6 +4,7 @@
 @import 'orders.styl'
 @import 'properties.styl'
 @import "offsets.styl"
+@import "text.styl"
 
 container_gutter_xs = container_gutters['']
 row_gutter_xs = row_gutters['']
@@ -29,14 +30,12 @@ row_gutter_xs = row_gutters['']
     padding-left 0
     padding-right 0
 
-columns()
-offsets()
-orders()
-make_classes()
-make_classes_adaptive()
-make_margins_adaptive()
-make_paddings_adaptive()
 make_text_sizes()
+//columns()
+//offsets()
+//orders()
+//make_classes()
+//make_classes_adaptive()
 
 for bp, min_width in breakpoints
   +media_down(min_width)
@@ -53,13 +52,11 @@ for bp, min_width in breakpoints
       margin-left local_row_gutter * -1
       margin-right local_row_gutter * -1
 
-    columns(bp)
-    offsets(bp)
-    orders(bp)
-    make_classes_adaptive(bp)
-    make_margins_adaptive(bp)
-    make_paddings_adaptive(bp)
     make_text_sizes(bp)
+    //columns(bp)
+    //offsets(bp)
+    //orders(bp)
+    //make_classes_adaptive(bp)
 
 .hidden
   position absolute
