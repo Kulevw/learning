@@ -33,7 +33,7 @@ text_sizes = {
       font-size: 18px,
       line-height: 20px
     },
-    '-xl': {
+    '-lg': {
       font-size: 20px
     }
   },
@@ -53,36 +53,5 @@ text_sizes = {
 
 make_text_sizes(bp = '')
   for class_value, values in text_sizes
-    make_text_size(bp, class_value, values)
-
-make_text_size(bp, class_value, values)
-  breakpoints_keys = keys(breakpoints)
-  unshift(breakpoints_keys, '')
-  bp_num = index_of(breakpoints_keys, bp)
-  if index_of(keys(values), bp) != -1
-    for local_bp in breakpoints_keys
-      local_bp_num = index_of(breakpoints_keys, local_bp)
-      if local_bp_num <= bp_num
-        value = value_of_adaptive_values(values, bp)
-        class_bp_value('fs', class_value, local_bp, value)
-  else
-    value = value_of_adaptive_values(values, bp)
-    class_bp_value('fs', class_value, bp, value)
-
-// получить адаптивное значаение адаптивного класса
-value_of_adaptive_values(values, bp)
-  // получаем ключи всех брейкпоинтов
-  breakpoints_keys = keys(breakpoints)
-  // добавляем пустое значение брейкпоинта в начало ключей
-  unshift(breakpoints_keys, '')
-  // получаем индекс текущего брейкпоинта
-  bp_num = index_of(breakpoints_keys, bp)
-  // если на пустом брейкпоинте возвращаем знаечние для пустого брейкпоинта
-  if bp_num == '0'
-    return values['']
-  // если в значениях нет текущего брейкпоинта, проверяем следующий по убыванию
-  if index_of(keys(values), bp) == -1
-    return value_of_adaptive_values(values, breakpoints_keys[bp_num - 1])
-  // возвращаем значение для текущего брейкпоинта
-  return values[breakpoints_keys[bp_num]]
+    make_adaptive_for_adaptive_class(bp, class_value, values)
 

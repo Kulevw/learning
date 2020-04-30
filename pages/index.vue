@@ -9,7 +9,7 @@
           <p class="fs-4">Маленький текст</p>
           <p class="fs-5">Очень маленький текст</p>
         </div>
-        <div class="col-xl-6">
+        <div class="col-md-6 col-12">
           <div class="home-page__select">
             <SelectInput
               v-model="selectSingleOptions.value"
@@ -17,7 +17,7 @@
             />
           </div>
         </div>
-        <div class="col-xl-6">
+        <div class="col-md-6 col-12">
           <div class="home-page__select">
             <SelectInput
               v-model="selectSingleIds.value"
@@ -25,7 +25,7 @@
             />
           </div>
         </div>
-        <div class="col-xl-6">
+        <div class="col-md-6 col-12">
           <div class="home-page__select">
             <SelectInput
               v-model="selectMultipleOptions.value"
@@ -33,7 +33,7 @@
             />
           </div>
         </div>
-        <div class="col-xl-6">
+        <div class="col-md-6 col-12">
           <div class="home-page__select">
             <SelectInput
               v-model="selectMultipleIds.value"

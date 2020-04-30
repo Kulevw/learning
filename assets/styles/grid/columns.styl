@@ -2,23 +2,32 @@
 @import "grid-mixins.styl"
 
 make_gutter_cols(bp)
-  gutter = cols_gutters[bp]
+  gutter = value_of_adaptive_values(cols_gutters, bp)
 
   $col-{bp}-{gutter}
     padding-left gutter
     padding-right gutter
 
-  breakpoints = keys(cols_gutters)
-  num_gutter = index_of(breakpoints, bp)
+  breakpoints_keys = get_breakpoints_keys()
+  num_gutter = index_of(breakpoints_keys, bp)
 
-  for local_bp, j in breakpoints
-    if j <= num_gutter
-      .col{local_bp}, .col{local_bp}-auto
-        @extend $col-{bp}-{gutter}
-
-      for span in (1 .. columns_count)
-        .col{local_bp}-{span}
+  if index_of(keys(cols_gutters), bp) != -1
+    for local_bp in breakpoints_keys
+      local_bp_num = index_of(breakpoints_keys, local_bp)
+      if local_bp_num <= num_gutter
+        .col{local_bp}, .col{local_bp}-auto
           @extend $col-{bp}-{gutter}
+
+        for span in (1 .. columns_count)
+          .col{local_bp}-{span}
+            @extend $col-{bp}-{gutter}
+  else
+    .col{bp}, .col{bp}-auto
+      @extend $col-{bp}-{gutter}
+
+    for span in (1 .. columns_count)
+      .col{bp}-{span}
+        @extend $col-{bp}-{gutter}
 
 columns(bp = '')
   make_gutter_cols(bp)
@@ -40,3 +49,4 @@ columns(bp = '')
       flex 0 0 percent
       max-width percent
       width 100%
+
