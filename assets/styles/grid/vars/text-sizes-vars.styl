@@ -1,15 +1,12 @@
-@import "params.styl"
-@import "grid-mixins.styl"
-
 text_sizes = {
   '1': {
     '': {
       font-size: 40px
     },
-    '-md': {
+    'md': {
       font-size: 45px
     },
-    '-xl': {
+    'xl': {
       font-size: 50px
     }
   },
@@ -17,10 +14,10 @@ text_sizes = {
     '': {
       font-size: 30px
     },
-    '-md': {
+    'md': {
       font-size: 35px
     },
-    '-xl': {
+    'xl': {
       font-size: 40px
     }
   },
@@ -29,11 +26,11 @@ text_sizes = {
       font-size: 16px,
       line-height: 20px
     },
-    '-md': {
+    'md': {
       font-size: 18px,
       line-height: 20px
     },
-    '-lg': {
+    'lg': {
       font-size: 20px
     }
   },
@@ -50,8 +47,3 @@ text_sizes = {
     }
   },
 }
-
-make_text_sizes(bp = '')
-  for class_value, values in text_sizes
-    make_adaptive_for_adaptive_class(bp, class_value, values)
-

@@ -1,0 +1,38 @@
+make_gutters_columns(count, gutter, bp)
+  $col-{bp}-{gutter}
+    padding-left gutter
+    padding-right gutter
+
+  .{gc('col', bp)}
+    @extend $col-{bp}-{gutter}
+  .{gc('col', bp, 'auto')}
+    @extend $col-{bp}-{gutter}
+
+  for span in (1 .. count)
+    .{gc('col', bp, span)}
+      @extend $col-{bp}-{gutter}
+
+make_columns(count, gutters, bp = '')
+  fn(class_value, bp, gutter)
+    make_gutters_columns(count, gutter, bp)
+
+  make_adaptive_for_adaptive_class(bp, 'col', gutters, fn)
+
+  +c('col', bp)
+    flex-basis 0%
+    flex-grow 1
+    max-width 100%
+    min-width 0.01px
+
+  +c('col', bp, 'auto')
+    flex 0 0 auto
+    width auto
+    max-width 100%
+
+  for span in (1 .. count)
+    +c('col', bp, span)
+      percent = (span / count) * 100%
+      flex 0 0 percent
+      max-width percent
+      width 100%
+

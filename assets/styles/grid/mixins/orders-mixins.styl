@@ -1,0 +1,11 @@
+make_orders(count, bp = '')
+  +c('order', bp, 'first')
+    order -1
+    padding 0
+
+  +c('order', bp, 'last')
+    order count + 1
+
+  for span in (0 .. count)
+    +c('order', bp, span)
+      order span

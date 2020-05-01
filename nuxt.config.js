@@ -19,5 +19,7 @@ export default {
   buildModules: ['@nuxt/typescript-build'],
   modules: ['@nuxtjs/axios', '@nuxtjs/dotenv', 'nuxt-svg-loader'],
   axios: {},
-  build: {},
+  build: {
+    extractCSS: true,
+  },
 }

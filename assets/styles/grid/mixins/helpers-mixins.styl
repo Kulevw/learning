@@ -1,0 +1,65 @@
+index_of(arr, thing)
+  for item, i in arr
+    if thing == item
+      return i
+  return -1
+
+pad(m, offset = 0)
+  return (grid_size * m) + offset
+
+c(args...)
+  normalize_args = ()
+  for arg in args
+    if !!arg
+      push(normalize_args, arg)
+  .{join('-', normalize_args)}
+    {block}
+
+gc(args...)
+  normalize_args = ()
+  for arg in args
+    if !!arg
+      push(normalize_args, arg)
+  return join('-', normalize_args)
+
+media_down_bp(bp)
+  if bp
+    @media screen and (min-width: breakpoints[bp])
+      {block}
+  else
+    {block}
+
+class_bp_value(class, class_value, bp, props)
+  +c(class, bp, class_value)
+    {props}
+
+make_adaptive_for_adaptive_class(bp, class_value, values, fn)
+  bps_keys = keys(breakpoints)
+  bp_index = index_of(bps_keys, bp)
+  value = value_of_adaptive_values(values, bp)
+
+  if index_of(keys(values), bp) != -1
+    for local_bp in bps_keys
+      local_bp_index = index_of(bps_keys, local_bp)
+      if local_bp_index < bp_index
+        fn(class_value, local_bp, value)
+  fn(class_value, bp, value)
+
+value_of_adaptive_values(values, bp)
+  bps_keys = keys(breakpoints)
+  bp_index = index_of(bps_keys, bp)
+  if bp_index == 0
+    return values['']
+  if index_of(keys(values), bp) == -1
+    return value_of_adaptive_values(values, bps_keys[bp_index - 1])
+  return values[bps_keys[bp_index]]
+
+make_classes(classes)
+  for class, class_values in classes
+    for class_value, props in class_values
+      class_bp_value(class, class_value, '', props)
+
+make_classes_adaptive(classes_adaptive, bp = '')
+  for class, class_values in classes_adaptive
+    for class_value, props in class_values
+      class_bp_value(class, class_value, bp, props)
