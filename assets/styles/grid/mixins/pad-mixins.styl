@@ -1,0 +1,39 @@
+make_padding(grid_size, count, step = 1, bp = '')
+  for i in (0 ... (count + 1))
+    .{gc('pt', bp, i)}, .{gc('py', bp, i)}
+      padding-top (i * grid_size * step)
+
+    .{gc('pr', bp, i)}, .{gc('px', bp, i)}
+      padding-right (i * grid_size * step)
+
+    .{gc('pb', bp, i)}, .{gc('py', bp, i)}
+      padding-bottom (i * grid_size * step)
+
+    .{gc('pl', bp, i)}, .{gc('px', bp, i)}
+      padding-left (i * grid_size * step)
+
+make_margins(grid_size, count, step = 1, bp = '')
+  for i in (0 ... (count + 1))
+    .{gc('mt', bp, i)}, .{gc('my', bp, i)}
+      margin-top (i * grid_size * step)
+
+    .{gc('mr', bp, i)}, .{gc('mx', bp, i)}
+      margin-right (i * grid_size * step)
+
+    .{gc('mb', bp, i)}, .{gc('my', bp, i)}
+      margin-bottom (i * grid_size * step)
+
+    .{gc('ml', bp, i)}, .{gc('mx', bp, i)}
+      margin-left (i * grid_size * step)
+
+  .{gc('mt', bp, 'auto')}, .{gc('my', bp, 'auto')}
+    margin-top auto
+
+  .{gc('mr', bp, 'auto')}, .{gc('mx', bp, 'auto')}
+    margin-right auto
+
+  .{gc('mb', bp, 'auto')}, .{gc('my', bp, 'auto')}
+    margin-bottom auto
+
+  .{gc('ml', bp, 'auto')}, .{gc('mx', bp, 'auto')}
+    margin-left auto

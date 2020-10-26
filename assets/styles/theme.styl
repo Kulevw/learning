@@ -1,0 +1,15 @@
+:root
+  make_theme_variables($themes['light'])
+
+  @media (prefers-color-scheme: dark)
+    make_theme_variables($themes['dark'])
+
+for name, variables in $themes
+  .theme-{name}
+    make_theme_variables(variables)
+
+html
+  background-color var_color('bg')
+  color var_color('text')
+
+

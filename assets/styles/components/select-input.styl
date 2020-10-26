@@ -1,0 +1,112 @@
+.select
+  position relative
+  border 1px solid var_color('line')
+  cursor pointer
+  font-size 20px
+
+  &--searchable
+    cursor text
+
+  &--focus
+    box-shadow 0 0 0 2px var_color('primary-light', .5)
+
+  &__list
+    position relative
+    z-index 2
+    max-height 202px
+    overflow-y auto
+    border-top 1px solid var_color('line')
+    border-bottom 1px solid var_color('line')
+    border-left 1px solid var_color('line')
+    border-right 1px solid var_color('line')
+    list-style none
+    padding-left 0
+    background-color var_color('bg')
+
+    &-enter
+      max-height 0
+
+    &-enter-active
+      transition max-height .1s
+
+    &-enter-to
+      max-height 201px
+
+    &-leave
+      transition none
+
+    &-leave-active
+      max-height 201px
+
+    &-leave-to
+      max-height 0
+
+    &_wrapper
+      position absolute
+      inset 100% -1px auto -1px
+      z-index 1
+      margin-bottom 15px
+
+      &:before
+        position absolute
+        inset 3px -2px -2px -2px
+        content ''
+        background-color var_color('primary-light', .5)
+
+  &__item
+    min-height 40px
+    display flex
+    align-items center
+    padding-left 14px
+    padding-right 14px
+    padding-top 8px
+    padding-bottom 8px
+    cursor pointer
+
+    &--selected
+      color var_color('primary')
+
+    &--arrow
+      background-color var_color('line')
+
+    &_check
+      max-height 24px
+      display flex
+      align-items center
+      margin-left auto
+
+      & > svg
+        display block
+
+  &__inner
+    min-height 38px
+    display flex
+    align-items center
+
+  &__input
+    width 100%
+    height 100%
+    padding 0
+    border none
+    background-color transparent
+    font-size inherit
+
+    &_label
+      flex-grow 1
+      flex-shrink 1
+
+  &__value
+    flex-grow 1
+    flex-shrink 1
+
+  &__toggle
+    flex-shrink 0
+    align-self center
+    transition transform .15s
+    cursor pointer
+
+    & > svg
+      display block
+
+    &--opened
+      transform rotateZ(180deg)

@@ -1,0 +1,33 @@
+$themes = {
+  light: {
+    bg-color: #ffffff
+    text-color: #000000
+    sub-text-color: #868686
+    line-color: #bababa
+    primary-color: #7e57c2
+    primary-light-color: #b085f5
+    primary-dark-color: #4d2c91
+  },
+  dark: {
+    bg-color: #1e1e1e
+    text-color: #ececec
+    sub-text-color: #868686
+    line-color: #bababa
+    primary-color: #7e57c2
+    primary-light-color: #b085f5
+    primary-dark-color: #4d2c91
+  }
+}
+
+hex_to_rgb(hex)
+  return (red(hex) green(hex) blue(hex))
+
+var_color(name, alpha = null)
+  if alpha
+    return s("rgba(var(--%s-color), %s)", unquote(name), alpha)
+  else
+    return s("rgb(var(--%s-color))", unquote(name))
+
+make_theme_variables(variables)
+  for name, hex in variables
+    {'--'}{name} unquote(join(',', hex_to_rgb(hex)))

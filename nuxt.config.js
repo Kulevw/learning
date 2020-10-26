@@ -1,8 +1,5 @@
 export default {
   mode: 'universal',
-  /*
-   ** Headers of the page
-   */
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -11,48 +8,41 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
-      }
+        content: process.env.npm_package_description || '',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-  /*
-   ** Customize the progress-bar color
-   */
   loading: { color: '#fff' },
-  /*
-   ** Global CSS
-   */
-  css: [],
-  /*
-   ** Plugins to load before mounting the App
-   */
-  plugins: [],
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: ['@nuxt/typescript-build'],
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+  css: ['~/assets/styles/index.styl'],
+  plugins: [
+    '~/plugins/vuelidate.ts',
+    '~/plugins/nuxt-client-init.client.ts',
+    '~/plugins/uid.ts',
   ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
+  buildModules: ['@nuxt/typescript-build'],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
+    '@nuxtjs/style-resources',
+    'nuxt-svg-loader',
+    'cookie-universal-nuxt',
+  ],
   axios: {},
-  /*
-   ** Build configuration
-   */
+  styleResources: {
+    stylus: [
+      '~/assets/styles/grid/vars/*.styl',
+      '~/assets/styles/grid/mixins/*.styl',
+      '~/assets/styles/vars/*.styl',
+      '~/assets/styles/mixins/*.styl',
+    ],
+  },
   build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend(config, ctx) {}
-  }
+    extractCSS: true,
+  },
+  typescript: {
+    typeCheck: {
+      eslint: true,
+    },
+  },
 }
