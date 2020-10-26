@@ -41,17 +41,45 @@
             />
           </div>
         </div>
+        <div class="col-md-6 col-12">
+          <div class="home-page__select">
+            <RadioButton v-model="currentTheme" name="theme" option="light">
+              Светлая тема
+            </RadioButton>
+          </div>
+        </div>
+        <div class="col-md-6 col-12">
+          <div class="home-page__select">
+            <RadioButton v-model="currentTheme" name="theme" option="dark">
+              Темная тема
+            </RadioButton>
+          </div>
+        </div>
+        <div class="col-md-6 col-12">
+          <div class="home-page__select">
+            <RadioButton v-model="currentTheme" name="theme" :option="null">
+              Авто
+            </RadioButton>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="home-page__select">
+            <ArrayVisualizer />
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import { required } from 'vuelidate/lib/validators'
-import SelectInput from '~/components/Base/Inputs/SelectInput.vue'
-import { ValidateValue } from '~/assets/js/vue/decorators/vue-validate-decorators'
+import ThemeablePageMixin from '~/assets/ts/vue/mixins/themeable-page-mixin'
+import SelectInput from '~/components/Base/Inputs/SelectInput/SelectInput.vue'
+import RadioButton from '~/components/Base/Inputs/RadioButton.vue'
+import ArrayVisualizer from '~/components/Common/ArrayVisualizer.vue'
+import { AppTheme } from '~/assets/ts/app-theme'
 
 const makeOptions = (optionName: string) => {
   const result = []
@@ -66,7 +94,9 @@ const makeOptions = (optionName: string) => {
 
 @Component({
   components: {
+    RadioButton,
     SelectInput,
+    ArrayVisualizer,
   },
   validations: {
     selectSingleOptions: {
@@ -76,8 +106,7 @@ const makeOptions = (optionName: string) => {
     },
   },
 })
-export default class IndexPage extends Vue {
-  @ValidateValue()
+export default class IndexPage extends ThemeablePageMixin {
   selectSingleOptions = {
     props: {
       options: makeOptions('SingleOptions'),
@@ -117,13 +146,20 @@ export default class IndexPage extends Vue {
     },
     value: [],
   }
+
+  get currentTheme(): AppTheme {
+    return this.$store.getters.getCurrentTheme
+  }
+
+  set currentTheme(theme: AppTheme) {
+    this.$store.commit('setTheme', theme)
+  }
 }
 </script>
 
 <style lang="stylus">
 .home-page
-  padding-top 400px
-
+  height 8000px
   &__select
     margin-bottom 50px
 </style>

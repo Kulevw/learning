@@ -1,8 +1,8 @@
+import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-import { InputMixin } from '~/assets/js/vue/mixins/input-mixin'
 
 export type SelectPrimitive = string | number | boolean
-export type SelectObject = { [key: string]: SelectPrimitive }
+export type SelectObject = { [key: string]: any }
 export type SelectPrimitiveValue = null | SelectPrimitive | SelectPrimitive[]
 export type SelectOptionValue = null | SelectObject | SelectObject[]
 export type SelectValue = SelectPrimitiveValue | SelectOptionValue
@@ -55,7 +55,10 @@ class SelectorSinglePrimitive extends Selector<SelectPrimitive | null> {
   }
 
   get selected(): SelectOptionValue {
-    return this.options.find((t) => t[this.byKey] === this.value) || null
+    return (
+      this.options.find((t: SelectObject) => t[this.byKey] === this.value) ||
+      null
+    )
   }
 
   valueIsEmpty(value: SelectPrimitive | null): boolean {
@@ -89,7 +92,7 @@ class SelectorMultiplePrimitive extends Selector<SelectPrimitive[]> {
 
   get selected(): SelectOptionValue {
     return this.value.reduce((acc: SelectObject[], prev) => {
-      const opt = this.options.find((t) => t[this.byKey] === prev)
+      const opt = this.options.find((t: SelectObject) => t[this.byKey] === prev)
       if (opt) {
         acc.push(opt)
       }
@@ -169,18 +172,18 @@ class SelectorMultipleOption extends Selector<SelectObject[]> {
   }
 }
 
-export interface SelectMixin extends InputMixin<SelectValue> {
+export interface SelectMixin {
   readonly value: SelectValue
   updateValue(value: SelectValue): SelectValue
 }
 
 @Component
-export class SelectMixin extends InputMixin<SelectValue> {
+export class SelectMixin extends Vue {
   @Prop({ type: Boolean, default: false }) readonly primitive!: boolean
   @Prop({ type: Boolean, default: false }) readonly multiple!: boolean
   @Prop({ type: String, default: 'id' }) readonly byKey!: string
   @Prop({ type: String, default: 'name' }) readonly byName!: string
-  @Prop({ type: Array, default: () => [] }) readonly options!: SelectObject[]
+  @Prop({ type: Array, default: () => [] }) readonly options!: SelectObject
 
   private get $selector(): Selector {
     if (this.primitive) {
@@ -193,6 +196,10 @@ export class SelectMixin extends InputMixin<SelectValue> {
       return new SelectorMultipleOption(this)
     }
     return new SelectorSingleOption(this)
+  }
+
+  get countOptions(): number {
+    return this.options.length
   }
 
   get selected(): SelectOptionValue {

@@ -2,12 +2,16 @@
 @require "mixins/*"
 @import "reset.styl"
 
-for bp in breakpoints
+make_classes($classes)
+
+for bp in $breakpoints
   +media_down_bp(bp)
-    make_container(container_sizes, container_gutters, bp)
-    make_row(row_gutters, bp)
-    make_columns(columns_count, columns_gutters, bp)
-    //make_offsets(columns_count, bp)
-    make_orders(columns_count, bp)
-    make_text_sizes(text_sizes, bp)
-    make_classes_adaptive(classes_adaptive, bp)
+    make_padding($grid_size, 10, 1, bp)
+    make_margins($grid_size, 10, 1, bp)
+    make_container($container_sizes, $container_gutters, bp)
+    make_row($row_gutters, bp)
+    make_columns($columns_count, $columns_gutters, bp)
+    //make_offsets($columns_count, bp)
+    make_orders($columns_count, bp)
+    make_adaptive_classes($adaptive_classes, bp)
+    make_mega_adaptive_classes($mega_adaptive_classes, bp)

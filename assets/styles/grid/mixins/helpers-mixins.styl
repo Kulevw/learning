@@ -4,13 +4,13 @@ index_of(arr, thing)
       return i
   return -1
 
-pad(m, offset = 0)
-  return (grid_size * m) + offset
+pad(k, offset = 0)
+  return ($grid_size * k) + offset
 
 c(args...)
   normalize_args = ()
   for arg in args
-    if !!arg
+    if arg != ''
       push(normalize_args, arg)
   .{join('-', normalize_args)}
     {block}
@@ -18,48 +18,54 @@ c(args...)
 gc(args...)
   normalize_args = ()
   for arg in args
-    if !!arg
+    if arg != ''
       push(normalize_args, arg)
   return join('-', normalize_args)
 
 media_down_bp(bp)
   if bp
-    @media screen and (min-width: breakpoints[bp])
+    @media screen and (min-width: $breakpoints[bp])
       {block}
   else
     {block}
 
-class_bp_value(class, class_value, bp, props)
-  +c(class, bp, class_value)
-    {props}
+make_classes(classes)
+  for class_name, class_values in classes
+    for class_value, props in class_values
+      +c(class_name, class_value)
+        {props}
 
-make_adaptive_for_adaptive_class(bp, class_value, values, fn)
-  bps_keys = keys(breakpoints)
+make_adaptive_classes(adaptive_classes, bp = '')
+  for class_name, class_values in adaptive_classes
+    for class_value, props in class_values
+      +c(class_name, bp, class_value)
+        {props}
+
+make_mega_adaptive_classes(mega_adaptive_classes, bp = '')
+  for class_name, class_values in mega_adaptive_classes
+    for class_value, adaptive_props in class_values
+      fn(props, bp)
+        +c(class_name, bp, class_value)
+          {props}
+      make_mega_adaptive_class(adaptive_props, bp, fn)
+
+make_mega_adaptive_class(adaptive_props, bp, cb)
+  bps_keys = keys($breakpoints)
   bp_index = index_of(bps_keys, bp)
-  value = value_of_adaptive_values(values, bp)
+  props = get_adaptive_props(adaptive_props, bp)
 
-  if index_of(keys(values), bp) != -1
+  if index_of(keys(adaptive_props), bp) != -1
     for local_bp in bps_keys
       local_bp_index = index_of(bps_keys, local_bp)
       if local_bp_index < bp_index
-        fn(class_value, local_bp, value)
-  fn(class_value, bp, value)
+        cb(props, local_bp)
+  cb(props, bp)
 
-value_of_adaptive_values(values, bp)
-  bps_keys = keys(breakpoints)
+get_adaptive_props(adaptive_props, bp)
+  bps_keys = keys($breakpoints)
   bp_index = index_of(bps_keys, bp)
   if bp_index == 0
-    return values['']
-  if index_of(keys(values), bp) == -1
-    return value_of_adaptive_values(values, bps_keys[bp_index - 1])
-  return values[bps_keys[bp_index]]
-
-make_classes(classes)
-  for class, class_values in classes
-    for class_value, props in class_values
-      class_bp_value(class, class_value, '', props)
-
-make_classes_adaptive(classes_adaptive, bp = '')
-  for class, class_values in classes_adaptive
-    for class_value, props in class_values
-      class_bp_value(class, class_value, bp, props)
+    return adaptive_props['']
+  if index_of(keys(adaptive_props), bp) == -1
+    return get_adaptive_props(adaptive_props, bps_keys[bp_index - 1])
+  return adaptive_props[bps_keys[bp_index]]

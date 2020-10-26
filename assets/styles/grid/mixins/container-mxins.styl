@@ -11,12 +11,12 @@ make_container(sizes, gutters, bp = '')
       margin-right auto
       margin-left auto
   else
-    size = sizes[bp]
     .container, .container-fluid
       if gutter
         padding-right gutter
         padding-left gutter
 
+    size = sizes[bp]
     .container
       if size
         max-width size

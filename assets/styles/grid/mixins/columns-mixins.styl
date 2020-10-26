@@ -13,10 +13,9 @@ make_gutters_columns(count, gutter, bp)
       @extend $col-{bp}-{gutter}
 
 make_columns(count, gutters, bp = '')
-  fn(class_value, bp, gutter)
+  fn(gutter, bp)
     make_gutters_columns(count, gutter, bp)
-
-  make_adaptive_for_adaptive_class(bp, 'col', gutters, fn)
+  make_mega_adaptive_class(gutters, bp, fn)
 
   +c('col', bp)
     flex-basis 0%

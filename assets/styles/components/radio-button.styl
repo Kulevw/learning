@@ -1,0 +1,26 @@
+.radio-button
+
+  &__box
+    position relative
+    width 20px
+    height 20px
+    border 1px solid var_color('line')
+    border-radius 50%
+    flex-shrink 0
+    margin-right pad(1)
+
+    &:before
+      content ''
+      position absolute
+      inset 3px
+      background-color var_color('primary')
+      border-radius 50%
+      transition transform .2s cubic-bezier(0.34, 1.56, 0.64, 1)
+      transform scale(0)
+
+    input[type="radio"]:checked + &
+      &:before
+        transform scale(1)
+
+  &__label
+    margin-top 3px

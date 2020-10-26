@@ -1,8 +1,20 @@
-//@import "normalize"
+@import "normalize"
 @import "grid"
-//@import "fonts"
-//@import "components/*"
+@import "fonts"
+@import "theme.styl"
+@import "components/*"
 
 body
   font-family 'Ubuntu', sans-serif
-  line-height normal
+  line-height 1
+
+.hidden
+  position absolute
+  max-height 0
+  max-width 0
+  opacity 0
+  pointer-events none
+  z-index -1
+
+.sub-text
+  color var_color('sub-text')

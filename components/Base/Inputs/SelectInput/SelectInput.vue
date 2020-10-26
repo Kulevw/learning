@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="select" :class="selectClass">
-      <div class="select__inner" @click="clickSelectHandler" @mousedown.prevent>
+      <div
+        class="select__inner"
+        @mouseup.prevent.stop="clickSelectHandler"
+        @mousedown.prevent
+      >
         <slot name="before">
           <div style="width: 14px"></div>
         </slot>
@@ -15,6 +19,7 @@
             :disabled="disabled"
             :placeholder="placeholder"
             @keydown="keyDownHandler"
+            @keyup="keyUpHandler"
           />
         </label>
         <div v-if="!searchable" class="select__value">
@@ -63,7 +68,7 @@ import { InputMixin } from '~/assets/ts/vue/mixins/input-mixin'
 import { SelectMixin, SelectObject } from '~/assets/ts/vue/mixins/select-mixin'
 import { ArrowSelectMixin } from '~/assets/ts/vue/mixins/arrow-select-mixin'
 import ArrowSVG from '~/assets/images/svg/arrow.svg'
-import SelectInputItem from '~/components/Base/Inputs/SelectInputItem.vue'
+import SelectInputItem from '~/components/Base/Inputs/SelectInput/SelectInputItem.vue'
 
 @Component({
   components: {
@@ -164,35 +169,23 @@ export default class SelectInput extends Mixins(
 
   indexOf(option: SelectObject) {
     return this.options.findIndex(
-      (opt) => opt[this.byKey] === option[this.byKey]
+      (opt: SelectObject) => opt[this.byKey] === option[this.byKey]
     )
   }
 
   upArrowIndex(e: KeyboardEvent) {
-    if (this.valueIsEmpty) {
-      this.arrowIndex = this.arrowIndexDecrement(
-        this.arrowIndex ?? 0,
-        this.countOptions
-      )
-    } else if (this.multiple) {
-      this.arrowIndex = this.indexOf((this.selected as SelectObject[])[0])
-    } else {
-      this.arrowIndex = this.indexOf(this.selected as SelectObject)
-    }
+    this.arrowIndex = this.arrowIndexDecrement(
+      this.arrowIndex ?? 0,
+      this.countOptions
+    )
     e.preventDefault()
   }
 
   downArrowIndex(e: KeyboardEvent) {
-    if (this.valueIsEmpty) {
-      this.arrowIndex = this.arrowIndexIncrement(
-        this.arrowIndex ?? -1,
-        this.countOptions
-      )
-    } else if (this.multiple) {
-      this.arrowIndex = this.indexOf((this.selected as SelectObject[])[0])
-    } else {
-      this.arrowIndex = this.indexOf(this.selected as SelectObject)
-    }
+    this.arrowIndex = this.arrowIndexIncrement(
+      this.arrowIndex ?? -1,
+      this.countOptions
+    )
     e.preventDefault()
   }
 
@@ -203,6 +196,15 @@ export default class SelectInput extends Mixins(
         break
       case 'ArrowDown':
         this.downArrowIndex(e)
+        break
+    }
+  }
+
+  keyUpHandler(e: KeyboardEvent) {
+    switch (e.key) {
+      case ' ':
+        this.updateOpened(!this.opened)
+        e.preventDefault()
         break
     }
   }

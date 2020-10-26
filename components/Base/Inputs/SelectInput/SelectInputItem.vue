@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-import CheckSVG from '~/assets/images/svg/check.svg'
+import CheckSVG from '~/assets/images/svg/check-mark.svg'
 
 @Component({
   components: {

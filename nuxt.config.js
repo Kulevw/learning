@@ -15,11 +15,34 @@ export default {
   },
   loading: { color: '#fff' },
   css: ['~/assets/styles/index.styl'],
-  plugins: ['~/plugins/vuelidate.ts'],
+  plugins: [
+    '~/plugins/vuelidate.ts',
+    '~/plugins/nuxt-client-init.client.ts',
+    '~/plugins/uid.ts',
+  ],
   buildModules: ['@nuxt/typescript-build'],
-  modules: ['@nuxtjs/axios', '@nuxtjs/dotenv', 'nuxt-svg-loader'],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
+    '@nuxtjs/style-resources',
+    'nuxt-svg-loader',
+    'cookie-universal-nuxt',
+  ],
   axios: {},
+  styleResources: {
+    stylus: [
+      '~/assets/styles/grid/vars/*.styl',
+      '~/assets/styles/grid/mixins/*.styl',
+      '~/assets/styles/vars/*.styl',
+      '~/assets/styles/mixins/*.styl',
+    ],
+  },
   build: {
     extractCSS: true,
+  },
+  typescript: {
+    typeCheck: {
+      eslint: true,
+    },
   },
 }

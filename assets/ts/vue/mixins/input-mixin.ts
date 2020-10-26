@@ -1,18 +1,31 @@
 import Vue from 'vue'
-import { Component, Prop, Model, Emit, Watch } from 'vue-property-decorator'
+import {
+  Component,
+  Prop,
+  PropSync,
+  Model,
+  Emit,
+  Watch
+} from 'vue-property-decorator'
 
 export interface InputMixin<TValue> {
   readonly refInput: HTMLInputElement
 }
 
+const defaultId = () =>
+  function(this: Vue) {
+    return this.$id(this.$options.name)
+  }
+
 @Component
 export class InputMixin<TValue> extends Vue {
   // region Props
-  @Prop({ type: String }) readonly id!: string
+  @Prop({ type: String, default: defaultId() }) readonly id!: string
   @Prop({ type: String }) readonly name!: string
-  @Prop({ type: Boolean }) readonly valid!: boolean
-  @Prop({ type: Boolean }) readonly disabled!: boolean
-  @Prop({ type: Boolean }) readonly focused!: boolean
+  @Prop({ type: Boolean, default: true }) readonly valid!: boolean
+  @Prop({ type: Boolean, default: false }) readonly disabled!: boolean
+  @Prop({ type: Boolean, default: false }) readonly focused!: boolean
+  @Prop({ type: Boolean, default: false }) readonly readonly!: boolean
   // endregion
 
   // region Model
@@ -21,6 +34,10 @@ export class InputMixin<TValue> extends Vue {
 
   // region State
   localFocused: boolean = this.focused
+  // endregion
+
+  // region syncProps
+  @PropSync('value') syncValue!: TValue
   // endregion
 
   // region Emits
