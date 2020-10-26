@@ -1,4 +1,4 @@
-import { Component, Prop, Mixins } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import { InputMixin } from '~/assets/js/vue/mixins/input-mixin'
 
 export type SelectPrimitive = string | number | boolean
@@ -35,6 +35,8 @@ abstract class Selector<TValue extends SelectValue = SelectValue> {
   abstract isSelected(option: SelectObject): boolean
   abstract select(option: SelectObject): void
   abstract unselect(option: SelectObject): void
+  abstract valueIsEmpty(value: TValue): boolean
+  abstract clearValue(): void
 }
 
 class SelectorSinglePrimitive extends Selector<SelectPrimitive | null> {
@@ -54,6 +56,14 @@ class SelectorSinglePrimitive extends Selector<SelectPrimitive | null> {
 
   get selected(): SelectOptionValue {
     return this.options.find((t) => t[this.byKey] === this.value) || null
+  }
+
+  valueIsEmpty(value: SelectPrimitive | null): boolean {
+    return value === null
+  }
+
+  clearValue(): void {
+    this.value = null
   }
 }
 
@@ -86,6 +96,14 @@ class SelectorMultiplePrimitive extends Selector<SelectPrimitive[]> {
       return acc
     }, [])
   }
+
+  valueIsEmpty(value: SelectPrimitive[]): boolean {
+    return value.length === 0
+  }
+
+  clearValue(): void {
+    this.value = []
+  }
 }
 
 class SelectorSingleOption extends Selector<SelectObject | null> {
@@ -105,6 +123,14 @@ class SelectorSingleOption extends Selector<SelectObject | null> {
 
   get selected(): SelectOptionValue {
     return this.value
+  }
+
+  valueIsEmpty(value: SelectObject | null): boolean {
+    return value === null
+  }
+
+  clearValue(): void {
+    this.value = null
   }
 }
 
@@ -133,9 +159,20 @@ class SelectorMultipleOption extends Selector<SelectObject[]> {
   get selected(): SelectOptionValue {
     return this.value
   }
+
+  valueIsEmpty(value: SelectObject[]): boolean {
+    return value.length === 0
+  }
+
+  clearValue(): void {
+    this.value = []
+  }
 }
 
-export interface SelectMixin extends InputMixin<SelectValue> {}
+export interface SelectMixin extends InputMixin<SelectValue> {
+  readonly value: SelectValue
+  updateValue(value: SelectValue): SelectValue
+}
 
 @Component
 export class SelectMixin extends InputMixin<SelectValue> {
@@ -145,7 +182,7 @@ export class SelectMixin extends InputMixin<SelectValue> {
   @Prop({ type: String, default: 'name' }) readonly byName!: string
   @Prop({ type: Array, default: () => [] }) readonly options!: SelectObject[]
 
-  private get selector(): Selector {
+  private get $selector(): Selector {
     if (this.primitive) {
       if (this.multiple) {
         return new SelectorMultiplePrimitive(this)
@@ -159,22 +196,30 @@ export class SelectMixin extends InputMixin<SelectValue> {
   }
 
   get selected(): SelectOptionValue {
-    return this.selector.selected
+    return this.$selector.selected
+  }
+
+  get valueIsEmpty(): boolean {
+    return this.$selector.valueIsEmpty(this.value)
   }
 
   isSelected(option: SelectObject): boolean {
-    return this.selector.isSelected(option)
+    return this.$selector.isSelected(option)
   }
 
   select(option: SelectObject): void {
-    this.selector.select(option)
+    this.$selector.select(option)
   }
 
   unselect(option: SelectObject): void {
-    this.selector.unselect(option)
+    this.$selector.unselect(option)
   }
 
   toggleSelect(option: SelectObject): void {
     this.isSelected(option) ? this.unselect(option) : this.select(option)
+  }
+
+  clearValue(): void {
+    this.$selector.clearValue()
   }
 }

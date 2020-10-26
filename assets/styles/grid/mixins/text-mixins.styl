@@ -1,7 +1,0 @@
-make_text_size(class_value, bp, value)
-  class_bp_value('fs', class_value, bp, value)
-
-make_text_sizes(text_sizes, bp = '')
-  fn = make_text_size
-  for class_value, values in text_sizes
-    make_adaptive_for_adaptive_class(bp, class_value, values, make_text_size)
